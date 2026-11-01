@@ -105,7 +105,7 @@ module.exports = function (router) {
             { assignedUser: String(user._id) },
             { $set: { assignedUser: '', assignedUserName: 'unassigned' } }
         );
-        utils.send(res, 200, 'User deleted', user);
+        res.status(204).end();
     }));
 
     return router;

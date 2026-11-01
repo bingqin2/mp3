@@ -2,6 +2,7 @@
  * Helpers shared by the users and tasks routes: response format, error
  * handling, query string parsing and request body validation.
  */
+var mongoose = require('mongoose');
 
 // An error we want to show to the client as-is, with a given status code
 function ApiError(status, message) {
@@ -40,8 +41,10 @@ function isPlainObject(value) {
     return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
+// True when a failed query is the database's fault rather than the client's
 function isConnectionError(err) {
-    return Boolean(err && /Network|ServerSelection|Timeout|NotConnected/.test(err.name || ''));
+    return mongoose.connection.readyState !== 1 ||
+        Boolean(err && /Network|ServerSelection|Timeout|NotConnected/.test(err.name || ''));
 }
 
 /*

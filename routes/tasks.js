@@ -105,7 +105,7 @@ module.exports = function (router) {
             { pendingTasks: String(task._id) },
             { $pull: { pendingTasks: String(task._id) } }
         );
-        utils.send(res, 200, 'Task deleted', task);
+        res.status(204).end();
     }));
 
     return router;
